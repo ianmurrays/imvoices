@@ -29,6 +29,7 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Better error pages
 gem 'better_errors', group: :development
+gem 'binding_of_caller', group: :development
 
 # Compiles angular templates into a single module
 gem 'angular-rails-templates'

@@ -1,18 +1,27 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authorize!, except: :authenticate
 
   def authenticate
     user = User.find_by_email user_params[:email]
 
-    if user.authenticate(user_params[:password])
+    if user && user.authenticate(user_params[:password])
       # Generate the JSON Web Token
       @jwt = JWT.encode({
         user_id: user.id
       }, Figaro.env.jwt_secret)
     else
       # Return an error
-      render nothing: true, status: :unauthorized
+      render json: {
+        error: "Invalid credentials",
+        status_code: StatusCodes::INVALID_CREDENTIALS
+      }, status: :unauthorized
     end
+  end
+
+  def me
+    @user = @current_user
+    render action: :show
   end
 
   # GET /users

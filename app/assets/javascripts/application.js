@@ -15,13 +15,6 @@
 //= require angular/angular
 //= require lodash/dist/lodash
 //= require restangular/dist/restangular
+//= require angular-ui-router/release/angular-ui-router
 //= require_tree ../templates
 //= require_tree .
-
-/**
- * Initialize the application module and configure the basics
- */
-angular.module('imvoices', ['templates', 'restangular'])
-  .config(['RestangularProvider', function (RestangularProvider) {
-
-  }]);

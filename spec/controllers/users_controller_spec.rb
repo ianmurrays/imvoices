@@ -22,13 +22,15 @@ describe UsersController do
 
       describe "with the incorrect credentials" do
         before(:each) do
-          post :authenticate, user: { email: user.email, password: "incorrect" }, format: :json
+          post :authenticate, user: { email: "what@noexists.com", password: "incorrect" }, format: :json
         end
 
         it { response.response_code.should == 401 }
 
-        it "should respond with an emtpy body" do
-          response.body.strip.should be_empty
+        it "should respond with an error message" do
+          json = JSON.parse response.body
+          json["error"].should == "Invalid credentials"
+          json["status_code"].should == StatusCodes::INVALID_CREDENTIALS
         end
       end
     end
